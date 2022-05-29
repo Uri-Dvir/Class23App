@@ -46,10 +46,10 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsViewHolder>{
                                 for (QueryDocumentSnapshot document : task.getResult()) {
                                     try {
                                         Comment m = new Comment(
-                                                document.get("userPhoto").toString(),
-                                                document.get("userName").toString(),
-                                                document.get("userID").toString(),
-                                                document.get("message").toString()
+                                                SecurityHelper.Decrypt(document.get("userPhoto").toString()),
+                                                SecurityHelper.Decrypt(document.get("userName").toString()),
+                                                SecurityHelper.Decrypt(document.get("userID").toString()),
+                                                SecurityHelper.Decrypt(document.get("message").toString())
                                         );
                                         messages.add(m);
                                     } catch (Exception e) {
@@ -67,10 +67,10 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsViewHolder>{
                     {
                         try {
                             Comment m = new Comment(
-                                    document.get("userPhoto").toString(),
-                                    document.get("userName").toString(),
-                                    document.get("userID").toString(),
-                                    document.get("message").toString()
+                                    SecurityHelper.Decrypt(document.get("userPhoto").toString()),
+                                    SecurityHelper.Decrypt(document.get("userName").toString()),
+                                    SecurityHelper.Decrypt(document.get("userID").toString()),
+                                    SecurityHelper.Decrypt(document.get("message").toString())
                             );
                             messages.add(m);
                         } catch (Exception e) {
@@ -110,10 +110,10 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsViewHolder>{
 
     public void addComment(Comment m) {
         Map<String, Object> message = new HashMap<>();
-        message.put("userPhoto", m.userPhoto);
-        message.put("userName", m.userName);
-        message.put("userID", m.userID);
-        message.put("message",m.message);
+        message.put("userPhoto", SecurityHelper.Encrypt(m.userPhoto));
+        message.put("userName", SecurityHelper.Encrypt(m.userName));
+        message.put("userID", SecurityHelper.Encrypt(m.userID));
+        message.put("message",SecurityHelper.Encrypt(m.message));
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         db.collection("Images").document(id).collection("comments").document(String.valueOf(System.currentTimeMillis()))
                 .set(message).addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -130,10 +130,10 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsViewHolder>{
                             {
                                 try {
                                     Comment m = new Comment(
-                                            document.get("userPhoto").toString(),
-                                            document.get("userName").toString(),
-                                            document.get("userID").toString(),
-                                            document.get("message").toString()
+                                            SecurityHelper.Decrypt(document.get("userPhoto").toString()),
+                                            SecurityHelper.Decrypt(document.get("userName").toString()),
+                                            SecurityHelper.Decrypt(document.get("userID").toString()),
+                                            SecurityHelper.Decrypt(document.get("message").toString())
                                     );
                                     messages.add(m);
                                 } catch (Exception e) {

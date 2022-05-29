@@ -53,7 +53,7 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageViewHolder> {
                         try {
                             Image i = new Image(
                                     document.getId(),
-                                    document.get("URL").toString()
+                                    SecurityHelper.Decrypt(document.get("URL").toString())
                             );
                             images.add(i);
                         } catch (Exception e) {
@@ -72,7 +72,7 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageViewHolder> {
                     try {
                         Image i = new Image(
                                 document.getId(),
-                                document.get("URL").toString()
+                                SecurityHelper.Decrypt(document.get("URL").toString())
                         );
                         images.add(i);
                     } catch (Exception e) {
@@ -127,7 +127,7 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageViewHolder> {
                     @Override
                     public void onSuccess(Uri uri) {
                         Map<String, Object> image = new HashMap<>();
-                        image.put("URL", uri.toString());
+                        image.put("URL", SecurityHelper.Encrypt(uri.toString()));
                         FirebaseFirestore db = FirebaseFirestore.getInstance();
                         db.collection("Images").document(String.valueOf(System.currentTimeMillis()))
                                 .set(image);
